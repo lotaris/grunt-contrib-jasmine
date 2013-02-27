@@ -167,11 +167,7 @@ phantom.sendMessage = function() {
       metadata.unshift(spec.meta);
     }
 
-    phantom.sendMessage( 'jasmine.reportSpecResults', spec.id, results, this.getFullName(spec), metadata);
-  };
-
-  PhantomReporter.prototype.getFullName = function(spec) {
-    return getNestedSuiteName(spec.suite, ':: ') +  ':: ' + spec.description;
+    phantom.sendMessage( 'jasmine.reportSpecResults', spec.id, results, spec.getFullName(), metadata);
   };
 
   PhantomReporter.prototype.resultsForSpecs = function(specIds){
