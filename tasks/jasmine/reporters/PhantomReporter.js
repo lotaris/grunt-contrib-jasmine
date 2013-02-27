@@ -162,7 +162,12 @@ phantom.sendMessage = function() {
       }
     });
 
-    phantom.sendMessage( 'jasmine.reportSpecResults', spec.id, results, this.getFullName(spec));
+    var metadata = getSuiteMetadata(spec.suite);
+    if (spec.meta) {
+      metadata.unshift(spec.meta);
+    }
+
+    phantom.sendMessage( 'jasmine.reportSpecResults', spec.id, results, this.getFullName(spec), metadata);
   };
 
   PhantomReporter.prototype.getFullName = function(spec) {
@@ -199,6 +204,17 @@ phantom.sendMessage = function() {
       messages : summaryMessages
     };
   };
+
+  function getSuiteMetadata(suite) {
+    var metadata = [];
+    while (suite) {
+      if (suite.meta) {
+        metadata.push(suite.meta);
+      }
+      suite = suite.parentSuite;
+    }
+    return metadata;
+  }
 
   function getNestedSuiteName(suite, sep) {
     var names = [];
