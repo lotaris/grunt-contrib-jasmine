@@ -158,7 +158,8 @@ phantom.sendMessage = function() {
       passedCount : _results.passedCount,
       skipped     : _results.skipped,
       passed      : _results.passed(),
-      msg         : _results.failedCount > 0 ? "failed" : "passed"
+      msg         : _results.failedCount > 0 ? "failed" : "passed",
+      duration    : spec.duration
     };
     this.results_[spec.id] = results;
 
@@ -173,12 +174,12 @@ phantom.sendMessage = function() {
       }
     }
 
-    var metadata = getSuiteMetadata(spec.suite);
+    results.metadata = getSuiteMetadata(spec.suite);
     if (spec.meta) {
-      metadata.unshift(spec.meta);
+      results.metadata.unshift(spec.meta);
     }
 
-    phantom.sendMessage( 'jasmine.reportSpecResults', spec.id, results, this.getFullName(spec), spec.duration, metadata);
+    phantom.sendMessage( 'jasmine.reportSpecResults', spec.id, results, this.getFullName(spec));
   };
 
   PhantomReporter.prototype.getFullName = function(spec) {
