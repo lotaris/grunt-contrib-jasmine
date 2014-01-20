@@ -178,7 +178,7 @@ phantom.sendMessage = function() {
       metadata.unshift(spec.meta);
     }
 
-    phantom.sendMessage( 'jasmine.reportSpecResults', spec.id, results, this.getFullName(spec), metadata);
+    phantom.sendMessage( 'jasmine.reportSpecResults', spec.id, results, this.getFullName(spec), spec.duration, metadata);
   };
 
   PhantomReporter.prototype.getFullName = function(spec) {
